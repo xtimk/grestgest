@@ -1,5 +1,6 @@
-import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { Activity } from "../../app/models/activity"
+import PageBar from "../pagebar/pagebar";
 
 interface Props {
     activities: Activity[];
@@ -9,6 +10,8 @@ interface Props {
 export default function Activities({activities, addActivity}: Props) {
     return (
         <>
+            <PageBar title="Activities"></PageBar>
+            <Button size="large" variant="contained" onClick={addActivity}>Add Activity</Button>
             <Table>
                 <TableHead>
                     <TableRow>
@@ -19,7 +22,7 @@ export default function Activities({activities, addActivity}: Props) {
                 </TableHead>
                 <TableBody>
                     {activities.map(item => (
-                    <TableRow key={item.id}>
+                        <TableRow key={item.id}>
                         <TableCell>{item.id}</TableCell>
                         <TableCell>{item.name}</TableCell>
                         <TableCell>{item.description}</TableCell>
@@ -27,7 +30,6 @@ export default function Activities({activities, addActivity}: Props) {
                     ))}
                 </TableBody>
             </Table>
-            <button onClick={addActivity}>Add Activity</button>
         </>
     )
 }

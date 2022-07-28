@@ -1,6 +1,7 @@
-import { Typography } from '@mui/material';
+import { Container, CssBaseline, Divider, Drawer, List, ListItem } from '@mui/material';
 import { useEffect, useState } from 'react';
 import Activities from '../../features/activities/activities';
+import ApplicationBar from '../../features/appbar/appbar';
 import { Activity } from '../models/activity';
 
 function App() {
@@ -20,11 +21,33 @@ function App() {
       periodId: 4
     }])
   }
+  
+  const drawerWidth = 240;
 
   return (
     <>
-      <Typography variant='h3'>Grest Manager</Typography>
-      <Activities activities={activities} addActivity={addActivity} />
+      <CssBaseline></CssBaseline>
+      <ApplicationBar></ApplicationBar>
+      <Drawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+          },
+        }}
+        variant="permanent"
+        anchor="left"
+      >
+      </Drawer>
+      <Divider />
+        <List>
+          <ListItem>AAAAA</ListItem>
+        </List>
+      <Container>
+        <Activities activities={activities} addActivity={addActivity} />
+      </Container>
     </>
   );
 }
