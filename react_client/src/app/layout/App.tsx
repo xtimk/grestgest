@@ -1,54 +1,46 @@
-import { Container, CssBaseline, Divider, Drawer, List, ListItem } from '@mui/material';
-import { useEffect, useState } from 'react';
-import Activities from '../../features/activities/activities';
+import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
+import { Container } from '@mui/system';
+import { useState } from 'react';
+import { Route } from 'react-router-dom';
+import AboutPage from '../../features/about/AboutPage';
 import ApplicationBar from '../../features/appbar/appbar';
-import { Activity } from '../models/activity';
+import ApplicationBody from '../../features/appbody/appbody';
 
 function App() {
-  const [activities, setActivities] = useState<Activity[]>([]);
 
-  useEffect(() => {
-    fetch('http://localhost:5000/api/activity/GetAll')
-      .then(response => response.json())
-      .then(data => setActivities(data))
-  }, [])
+  const [darkMode, setDarkMode] = useState(false);
+  const paletteType = darkMode ? 'dark' : 'light'
 
-  function addActivity() {
-    setActivities(prevState => [...prevState, {
-      id: prevState.length + 200,
-      name: "Falegnameria " + (prevState.length), 
-      description: "Attivita di falegnameria",
-      periodId: 4
-    }])
+  const theme = createTheme({
+    palette: {
+      mode: paletteType,
+      background: {
+        default:  paletteType === 'light' ? '#eaeaea' : '#121212'
+      }
+    },
+    // components: {
+    //   MuiAppBar: {
+    //     styleOverrides: {
+    //       colorPrimary: {
+    //         backgroundColor: paletteType === 'light' ? '#eaeaea' : '#121212'
+    //       }
+    //     }
+    //   }
+    // }
+  })
+
+  function handleThemeChange() {
+    setDarkMode(!darkMode);
   }
-  
-  const drawerWidth = 240;
-
+ 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <CssBaseline></CssBaseline>
-      <ApplicationBar></ApplicationBar>
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-        variant="permanent"
-        anchor="left"
-      >
-      </Drawer>
-      <Divider />
-        <List>
-          <ListItem>AAAAA</ListItem>
-        </List>
+      <ApplicationBar darkMode={darkMode} handleThemeChange={handleThemeChange}></ApplicationBar>
       <Container>
-        <Activities activities={activities} addActivity={addActivity} />
+        <ApplicationBody />
       </Container>
-    </>
+    </ThemeProvider>
   );
 }
 
