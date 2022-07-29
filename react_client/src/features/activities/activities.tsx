@@ -23,7 +23,7 @@ export default function Activities() {
     return (
         <>
             <Toolbar title="Activities">
-                <Typography variant="h4">Activities</Typography>
+                <Typography variant="h5">Activities</Typography>
             </Toolbar>
             <Divider></Divider>
             <Toolbar></Toolbar>

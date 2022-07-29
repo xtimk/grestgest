@@ -1,10 +1,7 @@
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
-import { Container } from '@mui/system';
 import { useState } from 'react';
-import { Route } from 'react-router-dom';
-import AboutPage from '../../features/about/AboutPage';
-import ApplicationBar from '../../features/appbar/appbar';
 import ApplicationBody from '../../features/appbody/appbody';
+import AppMenus from '../../features/appmenus/AppMenus';
 
 function App() {
 
@@ -18,15 +15,16 @@ function App() {
         default:  paletteType === 'light' ? '#eaeaea' : '#121212'
       }
     },
-    // components: {
-    //   MuiAppBar: {
-    //     styleOverrides: {
-    //       colorPrimary: {
-    //         backgroundColor: paletteType === 'light' ? '#eaeaea' : '#121212'
-    //       }
-    //     }
-    //   }
-    // }
+    components: {
+      MuiAppBar: {
+        styleOverrides: {
+          root: {
+            background: '#2c3e50 !important',
+            color: 'white !important',
+          },
+        },
+      },
+    },
   })
 
   function handleThemeChange() {
@@ -36,10 +34,8 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline></CssBaseline>
-      <ApplicationBar darkMode={darkMode} handleThemeChange={handleThemeChange}></ApplicationBar>
-      <Container>
-        <ApplicationBody />
-      </Container>
+      <AppMenus darkMode={darkMode} handleThemeChange={handleThemeChange}/>
+      <ApplicationBody />
     </ThemeProvider>
   );
 }
