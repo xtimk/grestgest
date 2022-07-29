@@ -1,5 +1,7 @@
-import { Button, Container, Divider, Table, TableBody, TableCell, TableHead, TableRow, Toolbar, Typography } from "@mui/material";
+import { Grid3x3 } from "@mui/icons-material";
+import { Box, Button, Container, Divider, Table, TableBody, TableCell, TableHead, TableRow, Toolbar, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { Activity } from "../../app/models/activity"
 
 export default function Activities() {
@@ -22,14 +24,26 @@ export default function Activities() {
 
     return (
         <>
-            <Toolbar title="Activities">
+            {/* <Toolbar title="Activities">
                 <Typography variant="h5">Activities</Typography>
+            </Toolbar> */}
+            <Toolbar />
+            <Toolbar>
+                <Toolbar>
+                    <Button size="large" variant="contained" onClick={addActivity}>Add Activity</Button>
+                </Toolbar>
+                <Toolbar>
+                    <Button component={Link} to="/wizard" variant="contained" size="large">Wizard</Button>
+                </Toolbar>
+                <Toolbar>
+                    <Button component={Link} to="/dialog" variant="contained" size="large">Dialog</Button>
+                </Toolbar>
             </Toolbar>
-            <Divider></Divider>
-            <Toolbar></Toolbar>
-            <Container>
-                <Button size="large" variant="contained" onClick={addActivity}>Add Activity</Button>
-            </Container>
+            <Divider />
+            <Toolbar>
+                <Typography variant="h6">Tabella - Attività</Typography>
+            </Toolbar>
+            <Divider />
             <Container>
                 <Table>
                     <TableHead>

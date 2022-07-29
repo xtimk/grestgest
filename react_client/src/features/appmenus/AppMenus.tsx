@@ -242,6 +242,7 @@ export default function AppMenus({darkMode, handleThemeChange}: Props) {
           ))}
         </List>
       </Drawer>
+      <Toolbar></Toolbar>
     </Box>
   );
 }
