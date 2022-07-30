@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import AboutPage from '../about/AboutPage';
 import Stepper1 from '../wizard/Wizard1';
 import Dialog1 from '../dialogs/Dialog1';
+import Periods from '../periods/Periods';
 
 
 export default function ApplicationBody() {
@@ -20,6 +21,7 @@ export default function ApplicationBody() {
               <Route path='/about' element={<AboutPage />}></Route>
               <Route path='/wizard' element={<Stepper1 />}></Route>
               <Route path='/dialog' element={<Dialog1 />}></Route>
+              <Route path='/periods' element={<Periods />}></Route>
           </Routes>
         </Grid>
       </Grid>

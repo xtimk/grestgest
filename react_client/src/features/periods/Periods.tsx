@@ -3,13 +3,14 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Activity } from "../../app/models/activity"
 import AddIcon from '@mui/icons-material/Add';
+import { Period } from "../../app/models/period";
 
 
-export default function Activities() {
-    const [activities, setActivities] = useState<Activity[]>([]);
+export default function Periods() {
+    const [activities, setActivities] = useState<Period[]>([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/activity/GetAll')
+        fetch('http://localhost:5000/api/period/GetAll')
           .then(response => response.json())
           .then(data => setActivities(data))
       }, [])
@@ -17,24 +18,10 @@ export default function Activities() {
 
     return (
         <>
-            {/* <Toolbar title="Activities">
-                <Typography variant="h5">Activities</Typography>
-            </Toolbar> */}
             <Toolbar />
-            {/* <Toolbar>
-                <Toolbar>
-                    <Button size="large" variant="contained" onClick={addActivity}>Add Activity</Button>
-                </Toolbar>
-                <Toolbar>
-                    <Button component={Link} to="/wizard" variant="contained" size="large">Wizard</Button>
-                </Toolbar>
-                <Toolbar>
-                    <Button component={Link} to="/dialog" variant="contained" size="large">Dialog</Button>
-                </Toolbar>
-            </Toolbar> */}
             <Divider />
             <Toolbar>
-                <Typography variant="h6">Tabella - Attività</Typography>
+                <Typography variant="h6">Tabella - Periodi</Typography>
             </Toolbar>
             <Divider />
             <Container>
@@ -43,8 +30,7 @@ export default function Activities() {
                         <TableRow>
                             <TableCell>Id</TableCell>
                             <TableCell>Nome</TableCell>
-                            <TableCell>Descrizione</TableCell>
-                            <TableCell>Quando</TableCell>
+                            <TableCell>Intervalli</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -52,8 +38,7 @@ export default function Activities() {
                             <TableRow key={item.id}>
                             <TableCell>{item.id}</TableCell>
                             <TableCell>{item.name}</TableCell>
-                            <TableCell>{item.description}</TableCell>
-                            <TableCell>{item.period.name}</TableCell>
+                            <TableCell>{item.intervals.map(i => (i.name +", "))}</TableCell>
                         </TableRow>
                         ))}
                     </TableBody>
@@ -62,7 +47,7 @@ export default function Activities() {
             <Toolbar />
             <Container>
                 <Button variant="outlined" startIcon={<AddIcon />} component={Link} to="/wizard">
-                    Add Activity
+                    Aggiungi Periodo
                 </Button>
             </Container>
         </>
