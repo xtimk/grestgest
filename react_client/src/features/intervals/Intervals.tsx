@@ -40,7 +40,7 @@ export default function Intervals() {
             <Toolbar />
             <Divider />
             <Toolbar>
-                <Typography variant="h6">Tabella - Intervalli temporali</Typography>
+                <Typography variant="h6">Elenco intervalli temporali</Typography>
             </Toolbar>
             <Divider />
             <TableContainer>

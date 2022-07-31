@@ -1,4 +1,4 @@
-import { Button, Container, Divider, Table, TableBody, TableCell, TableHead, TableRow, Toolbar, Typography } from "@mui/material";
+import { Button, Container, Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Activity } from "../../app/models/activity"
@@ -21,10 +21,10 @@ export default function Periods() {
             <Toolbar />
             <Divider />
             <Toolbar>
-                <Typography variant="h6">Tabella - Periodi</Typography>
+                <Typography variant="h6">Elenco Periodi</Typography>
             </Toolbar>
             <Divider />
-            <Container>
+            <TableContainer>
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -43,7 +43,7 @@ export default function Periods() {
                         ))}
                     </TableBody>
                 </Table>
-            </Container>
+            </TableContainer>
             <Toolbar />
             <Container>
                 <Button variant="outlined" startIcon={<AddIcon />} component={Link} to="/wizard">

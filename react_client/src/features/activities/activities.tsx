@@ -1,4 +1,4 @@
-import { Button, Container, Divider, Table, TableBody, TableCell, TableHead, TableRow, Toolbar, Typography } from "@mui/material";
+import { Button, Container, Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Activity } from "../../app/models/activity"
@@ -17,27 +17,13 @@ export default function Activities() {
 
     return (
         <>
-            {/* <Toolbar title="Activities">
-                <Typography variant="h5">Activities</Typography>
-            </Toolbar> */}
             <Toolbar />
-            {/* <Toolbar>
-                <Toolbar>
-                    <Button size="large" variant="contained" onClick={addActivity}>Add Activity</Button>
-                </Toolbar>
-                <Toolbar>
-                    <Button component={Link} to="/wizard" variant="contained" size="large">Wizard</Button>
-                </Toolbar>
-                <Toolbar>
-                    <Button component={Link} to="/dialog" variant="contained" size="large">Dialog</Button>
-                </Toolbar>
-            </Toolbar> */}
             <Divider />
             <Toolbar>
-                <Typography variant="h6">Tabella - Attività</Typography>
+                <Typography variant="h6">Elenco Attività</Typography>
             </Toolbar>
             <Divider />
-            <Container>
+            <TableContainer>
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -58,7 +44,7 @@ export default function Activities() {
                         ))}
                     </TableBody>
                 </Table>
-            </Container>
+            </TableContainer>
             <Toolbar />
             <Container>
                 <Button variant="outlined" startIcon={<AddIcon />} component={Link} to="/wizard">
