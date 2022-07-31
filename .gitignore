@@ -4,6 +4,9 @@
 # Remove sqlitedb from git
 grest.db
 
+grest.db-shm
+grest.db-wal
+
 # Remove Logs folder from git
 Logs/
 
