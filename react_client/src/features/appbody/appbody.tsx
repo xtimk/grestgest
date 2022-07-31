@@ -5,6 +5,7 @@ import AboutPage from '../about/AboutPage';
 import Stepper1 from '../wizard/Wizard1';
 import Dialog1 from '../dialogs/Dialog1';
 import Periods from '../periods/Periods';
+import Intervals from '../intervals/Intervals';
 
 
 export default function ApplicationBody() {
@@ -22,6 +23,7 @@ export default function ApplicationBody() {
               <Route path='/wizard' element={<Stepper1 />}></Route>
               <Route path='/dialog' element={<Dialog1 />}></Route>
               <Route path='/periods' element={<Periods />}></Route>
+              <Route path='/intervals' element={<Intervals />}></Route>
           </Routes>
         </Grid>
       </Grid>

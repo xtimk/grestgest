@@ -62,7 +62,7 @@ export default function Activities() {
             <Toolbar />
             <Container>
                 <Button variant="outlined" startIcon={<AddIcon />} component={Link} to="/wizard">
-                    Add Activity
+                    Aggiungi Attività
                 </Button>
             </Container>
         </>

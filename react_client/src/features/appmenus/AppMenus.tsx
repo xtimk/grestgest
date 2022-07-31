@@ -21,6 +21,7 @@ import { Button, FormControlLabel, Switch } from '@mui/material';
 
 import ActitityMenuItem from './ActivityMenu';
 import PeriodMenuItem from './PeriodMenu';
+import IntervalMenuItem from './IntervalMenu';
 
 const drawerWidth = 240;
 
@@ -198,6 +199,7 @@ export default function AppMenus({darkMode, handleThemeChange}: Props) {
         <List>
           <ActitityMenuItem open={open}/>
           <PeriodMenuItem open={open}/>
+          <IntervalMenuItem open={open}/>
         </List>
         <Divider />
         <List>
