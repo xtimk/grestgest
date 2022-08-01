@@ -1,7 +1,6 @@
 import { Button, Container, Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Activity } from "../../app/models/activity"
 import AddIcon from '@mui/icons-material/Add';
 import { Period } from "../../app/models/period";
 
