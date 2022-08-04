@@ -6,15 +6,19 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Container, Divider, Toolbar } from '@mui/material';
+import { WizardStep } from '../../app/models/wizard';
 
-const steps = ['Select campaign settings', 'Create an ad group', 'Create an ad'];
+interface Props {
+  steps: WizardStep[]
+}
 
-export default function HorizontalLinearStepper() {
+export default function HorizontalLinearStepper({steps}: Props) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set<number>());
 
   const isStepOptional = (step: number) => {
-    return step === 1;
+    return steps[step].isOptional
+    // return step === 1;
   };
 
   const isStepSkipped = (step: number) => {
@@ -80,8 +84,8 @@ export default function HorizontalLinearStepper() {
               stepProps.completed = false;
             }
             return (
-              <Step key={label} {...stepProps}>
-                <StepLabel {...labelProps}>{label}</StepLabel>
+              <Step key={label.steptitle} {...stepProps}>
+                <StepLabel {...labelProps}>{label.steptitle}</StepLabel>
               </Step>
             );
           })}
@@ -91,6 +95,8 @@ export default function HorizontalLinearStepper() {
             <Typography sx={{ mt: 2, mb: 1 }}>
               All steps completed - you&apos;re finished
             </Typography>
+            <Toolbar />
+            <Divider />
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
               <Box sx={{ flex: '1 1 auto' }} />
               <Button onClick={handleReset}>Reset</Button>
@@ -98,7 +104,13 @@ export default function HorizontalLinearStepper() {
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
+            {/* <Typography sx={{ mt: 2, mb: 1 }} variant='h6'>Inserire nome e descrizione</Typography> */}
+            <Toolbar />
+            <Toolbar>
+              {steps[activeStep].content}
+            </Toolbar>
+            <Toolbar />
+            <Divider />
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
               <Button
                 color="inherit"

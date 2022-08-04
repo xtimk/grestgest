@@ -60,22 +60,22 @@ const cards = [activityCard, periodCard, intervalCard]
 export default function Home() {
     return (
         <>
-            <Toolbar />
-            <Divider />
-            <Toolbar>
-                <Typography variant="h6">Home</Typography>
-            </Toolbar>
-            <Divider />
-            <Toolbar />
-            <Toolbar>
-                <Grid container spacing={2}>
-                {cards.map(card => (
-                        <Grid item xs={2}>
+          <Toolbar />
+          <Divider />
+          <Toolbar>
+              <Typography variant="h6">Home</Typography>
+          </Toolbar>
+          <Divider />
+          <Toolbar />
+          <Toolbar>
+              <Grid container spacing={2}>
+                {cards.map((card, index) => (
+                        <Grid item xs={2} key={index}>
                             {card}
                         </Grid>
                 ))}
-                </Grid>
-            </Toolbar>
+              </Grid>
+          </Toolbar>
         </>
     )
 }

@@ -3,17 +3,34 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Activity } from "../../app/models/activity"
 import AddIcon from '@mui/icons-material/Add';
+import axios from "axios";
+import LoadingPlaceholder from "../loading/LoadingPlaceholder";
 
 
 export default function Activities() {
     const [activities, setActivities] = useState<Activity[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/activity/GetAll')
-          .then(response => response.json())
-          .then(data => setActivities(data))
-      }, [])
+    axios.get('http://localhost:5000/api/activity/GetAll')
+        .then(response => setActivities(response.data))
+        .catch(error => console.log(error))
+        .finally(() => setLoading(false))
+    }, [])
 
+    if(loading) {
+        return (
+            <>
+                <Toolbar />
+                <Divider />
+                <Toolbar>
+                    <Typography variant="h6">Elenco Attività</Typography>
+                </Toolbar>
+                <Divider />
+                <LoadingPlaceholder />
+            </>
+        )
+    }
 
     return (
         <>
@@ -47,7 +64,7 @@ export default function Activities() {
             </TableContainer>
             <Toolbar />
             <Container>
-                <Button variant="outlined" startIcon={<AddIcon />} component={Link} to="/wizard">
+                <Button variant="outlined" startIcon={<AddIcon />} component={Link} to="/activities/create">
                     Aggiungi Attività
                 </Button>
             </Container>

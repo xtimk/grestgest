@@ -23,6 +23,8 @@ import ActitityMenuItem from './ActivityMenu';
 import PeriodMenuItem from './PeriodMenu';
 import IntervalMenuItem from './IntervalMenu';
 import HomeMenuItem from './HomeMenu';
+import { Link } from 'react-router-dom';
+import HomeIcon from '@mui/icons-material/Home';
 
 const drawerWidth = 240;
 
@@ -178,7 +180,11 @@ export default function AppMenus({darkMode, handleThemeChange}: Props) {
             <MenuIcon />
             </IconButton>
             <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
-                Grest Manager App
+                <Button component={Link} to="/" sx={{color:'white'}}>
+                  <Typography variant='h6'>
+                    Grest Management App
+                  </Typography>
+                </Button>
             </Typography>
             <FormControlLabel onChange={handleThemeChange} checked={darkMode}
                 control={<MaterialUISwitch sx={{ m: 1 }} defaultChecked />}
@@ -199,6 +205,7 @@ export default function AppMenus({darkMode, handleThemeChange}: Props) {
         <Divider />
         <List>
           <HomeMenuItem open={open}/>
+          <Divider />
           <ActitityMenuItem open={open}/>
           <PeriodMenuItem open={open}/>
           <IntervalMenuItem open={open}/>
