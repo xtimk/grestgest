@@ -1,4 +1,4 @@
-import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material"
+import { Button, Divider, MenuItem, Select, SelectChangeEvent, TextField, Toolbar } from "@mui/material"
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { Period } from "../../app/models/period"
@@ -6,6 +6,7 @@ import { StepperElement } from "../../app/models/stepperElement"
 import { WizardStep } from "../../app/models/wizard"
 import FormGroupElements from "../formgroup/FormGroup"
 import LoadingPlaceholder from "../loading/LoadingPlaceholder"
+import PageHeader from "../pageheader/PageHeader"
 import HorizontalLinearStepper from "../wizard/Wizard1"
 
 
@@ -28,6 +29,14 @@ export default function CreateActivity() {
         .catch(error => console.log(error))
         .finally(() => setLoading(false))
     }, [])
+
+    function createActivity() {
+        var name = document.getElementById("Name");
+        var description = document.getElementById("Description");
+        var periodId = document.getElementById("PeriodId");
+
+        console.log(name);
+    }
 
     const FirstStepElements : StepperElement[] = [
         {
@@ -57,11 +66,12 @@ export default function CreateActivity() {
             element: (
             <>
                 <Select
-                    labelId="Periodo attivita"
+                    labelId="Periodo"
                     id="periodId"
                     value={selectItem}
-                    label="Periodo attivita"
+                    label="Periodo *"
                     onChange={handleChange}
+                    variant='outlined'
                 >
                     {period.map(item => (
                         <MenuItem value={item.id}>{item.name}</MenuItem>
@@ -82,11 +92,7 @@ export default function CreateActivity() {
             steptitle: "Selezione periodo attività",
             isOptional: false,
             content: <FormGroupElements elements={SecondStepElements}/>
-        },
-        {
-            steptitle: "Review",
-            isOptional: false,
-        },
+        }
     ]
 
     if (loading) {
@@ -94,6 +100,16 @@ export default function CreateActivity() {
     }
 
     return (
-        <HorizontalLinearStepper steps={createActivitySteps}/>
+        // <HorizontalLinearStepper steps={createActivitySteps}/>
+        <>
+            <PageHeader pageTitle="Crea Attività"/>
+            <Toolbar />
+            <FormGroupElements elements={[...FirstStepElements,...SecondStepElements]} />
+            <Toolbar />
+            <Divider />
+            <Toolbar>
+                <Button variant="outlined" size="large" onClick={createActivity}>Crea</Button>
+            </Toolbar>
+        </>
     )
 }

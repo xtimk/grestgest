@@ -8,7 +8,7 @@ interface Props {
 export default function FormGroupElements({elements}: Props) {
     return (
         <>
-            <Grid container spacing={4} alignItems="center" justifyContent="center">
+            <Grid container spacing={3} alignItems="center" justifyContent="center">
                 {elements.map(item => (
                     <>
                         <Grid item xs={2}>

@@ -5,6 +5,7 @@ import { Activity } from "../../app/models/activity"
 import AddIcon from '@mui/icons-material/Add';
 import axios from "axios";
 import LoadingPlaceholder from "../loading/LoadingPlaceholder";
+import PageHeader from "../pageheader/PageHeader";
 
 
 export default function Activities() {
@@ -34,12 +35,7 @@ export default function Activities() {
 
     return (
         <>
-            <Toolbar />
-            <Divider />
-            <Toolbar>
-                <Typography variant="h6">Elenco Attività</Typography>
-            </Toolbar>
-            <Divider />
+            <PageHeader pageTitle="Elenco Attività"/>
             <TableContainer>
                 <Table>
                     <TableHead>
