@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using API.Data;
 using API.Entities;
@@ -26,15 +28,36 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ICollection<Activity>> GetAll()
         {
-            var periods = await _context.Activities.Include(x => x.Period).ToListAsync();
-            return periods;
+            Thread.Sleep(500);
+            var activities = await _context.Activities.Include(x => x.Period).ToListAsync();
+            return activities;
         }
 
         [HttpGet]
         public async Task<Activity> GetFirst()
         {
-            var periods = await _context.Activities.Include(x => x.Period).FirstAsync();
-            return periods;
+            var activities = await _context.Activities.Include(x => x.Period).FirstAsync();
+            return activities;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(string data)
+        {
+            Activity activity = null;
+            try
+            {
+                activity = JsonSerializer.Deserialize<Activity>(data);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deserializing activity in create.");
+            }
+
+            await _context.Activities.AddAsync(activity);
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
     }
 }
