@@ -22,6 +22,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ICollection<Period>> GetAll()
         {
+            Thread.Sleep(500);
             var periods = await _context.Periods.Include(x => x.Intervals).ToListAsync();
             return periods;
         }

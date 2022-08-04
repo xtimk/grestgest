@@ -16,7 +16,7 @@ export default function FormGroupElements({elements}: Props) {
                                 {item.label}
                             </Typography>
                         </Grid>
-                        <Grid item xs={8}>
+                        <Grid item xs={9}>
                             {item.element}
                         </Grid>
                         <Grid item xs={1}/>
