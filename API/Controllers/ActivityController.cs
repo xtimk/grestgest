@@ -41,23 +41,32 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(string data)
+        public async Task<IActionResult> Create([FromBody]Activity activity)
         {
-            Activity activity = null;
-            try
-            {
-                activity = JsonSerializer.Deserialize<Activity>(data);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error deserializing activity in create.");
-            }
+            _logger.LogInformation("Creating activity.");
 
             await _context.Activities.AddAsync(activity);
 
             await _context.SaveChangesAsync();
 
             return Ok();
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int activityId) {
+            var activity_to_delete = await _context.Activities.FindAsync(activityId);
+            if(activity_to_delete == null)
+            {
+                _logger.LogWarning("You tried to delete an activity that does not exists. The id of the non-existent activity is: " + activityId);
+                return Ok();
+            }
+            else
+            {
+                _logger.LogInformation("Requested the delete of activity with id " + activityId);
+                _context.Activities.Remove(activity_to_delete);
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
         }
     }
 }

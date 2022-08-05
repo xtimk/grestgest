@@ -22,6 +22,7 @@ namespace API.Controllers
         public async Task<ICollection<Interval>> GetAll()
         {
             _logger.LogInformation("Getting all intervals.");
+            Thread.Sleep(500);
             var periods = await _context.Intervals.ToListAsync();
             return periods;
         }
