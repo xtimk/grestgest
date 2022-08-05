@@ -1,5 +1,5 @@
 import { Grid, Typography } from "@mui/material";
-import { StepperElement } from "../../app/models/stepperElement";
+import { StepperElement } from "../../models/stepperElement";
 
 interface Props {
     elements: StepperElement[]

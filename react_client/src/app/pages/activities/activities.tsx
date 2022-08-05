@@ -1,21 +1,20 @@
 import { Button, Container, Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Activity } from "../../models/activity"
 import AddIcon from '@mui/icons-material/Add';
-import { Period } from "../../app/models/period";
-import agent from "../../app/api/agent";
-import LoadingPlaceholder from "../loading/LoadingPlaceholder";
+import LoadingPlaceholder from "../../components/loading/LoadingPlaceholder";
+import agent from "../../api/agent";
+import PageHeader from "../../components/pageheader/PageHeader";
 
 
-export default function Periods() {
-    const [periods, setPeriods] = useState<Period[]>([]);
+export default function Activities() {
+    const [activities, setActivities] = useState<Activity[]>([]);
     const [loading, setLoading] = useState(true);
 
-    const pageTitle = "Elenco Periodi";
-
     useEffect(() => {
-        agent.Period.list()
-            .then(periods => setPeriods(periods))
+        agent.Activity.list()
+            .then(activities => setActivities(activities))
             .catch(error => console.log(error))
             .finally(() => setLoading(false))
     },[])
@@ -26,7 +25,7 @@ export default function Periods() {
                 <Toolbar />
                 <Divider />
                 <Toolbar>
-                    <Typography variant="h6">{pageTitle}</Typography>
+                    <Typography variant="h6">Elenco Attività</Typography>
                 </Toolbar>
                 <Divider />
                 <LoadingPlaceholder />
@@ -34,29 +33,32 @@ export default function Periods() {
         )
     }
 
+    const DeleteActivity = (activityId : number) => (agent.Activity.delete(activityId));
+
     return (
         <>
-            <Toolbar />
-            <Divider />
-            <Toolbar>
-                <Typography variant="h6">{pageTitle}</Typography>
-            </Toolbar>
-            <Divider />
+            <PageHeader pageTitle="Elenco Attività"/>
             <TableContainer>
                 <Table>
                     <TableHead>
                         <TableRow>
                             <TableCell>Id</TableCell>
                             <TableCell>Nome</TableCell>
-                            <TableCell>Intervalli</TableCell>
+                            <TableCell>Descrizione</TableCell>
+                            <TableCell>Quando</TableCell>
+                            <TableCell>Azioni</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {periods.map(item => (
+                        {activities.map(item => (
                             <TableRow key={item.id}>
                             <TableCell>{item.id}</TableCell>
                             <TableCell>{item.name}</TableCell>
-                            <TableCell>{item.intervals.map(i => (i.name +", "))}</TableCell>
+                            <TableCell>{item.description}</TableCell>
+                            <TableCell>{item.period?.name}</TableCell>
+                            <TableCell>
+                                <Button onClick={() => DeleteActivity(item.id)}>Cancella</Button>
+                            </TableCell>
                         </TableRow>
                         ))}
                     </TableBody>
@@ -64,8 +66,8 @@ export default function Periods() {
             </TableContainer>
             <Toolbar />
             <Container>
-                <Button variant="outlined" startIcon={<AddIcon />} component={Link} to="/wizard">
-                    Aggiungi Periodo
+                <Button variant="outlined" startIcon={<AddIcon />} component={Link} to="/activities/create">
+                    Aggiungi Attività
                 </Button>
             </Container>
         </>

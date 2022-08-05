@@ -6,7 +6,7 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Container, Divider, Toolbar } from '@mui/material';
-import { WizardStep } from '../../app/models/wizard';
+import { WizardStep } from '../../models/wizard';
 
 interface Props {
   steps: WizardStep[]

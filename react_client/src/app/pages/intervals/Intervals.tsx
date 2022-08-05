@@ -2,9 +2,9 @@ import { Button, Container, Divider, Table, TableBody, TableCell, TableContainer
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AddIcon from '@mui/icons-material/Add';
-import { Interval } from "../../app/models/interval";
-import agent from "../../app/api/agent";
-import LoadingPlaceholder from "../loading/LoadingPlaceholder";
+import { Interval } from "../../models/interval";
+import agent from "../../api/agent";
+import LoadingPlaceholder from "../../components/loading/LoadingPlaceholder";
 
 
 export default function Intervals() {
