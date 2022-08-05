@@ -6,6 +6,8 @@ import AddIcon from '@mui/icons-material/Add';
 import LoadingPlaceholder from "../../components/loading/LoadingPlaceholder";
 import agent from "../../api/agent";
 import PageHeader from "../../components/pageheader/PageHeader";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function Activities() {
@@ -33,7 +35,16 @@ export default function Activities() {
         )
     }
 
-    const DeleteActivity = (activityId : number) => (agent.Activity.delete(activityId));
+    const DeleteActivity = (activity : Activity) => (
+        agent.Activity.delete(activity.id)
+            .then(() => {
+                toast.success("Attivita cancellata con successo");
+                setActivities(activities.filter(item=>item!==activity));
+            })
+            .finally(() => {
+                setLoading(false);
+            })
+    );
 
     return (
         <>
@@ -57,7 +68,7 @@ export default function Activities() {
                             <TableCell>{item.description}</TableCell>
                             <TableCell>{item.period?.name}</TableCell>
                             <TableCell>
-                                <Button onClick={() => DeleteActivity(item.id)}>Cancella</Button>
+                                <Button onClick={() => DeleteActivity(item)}>Cancella</Button>
                             </TableCell>
                         </TableRow>
                         ))}

@@ -7,6 +7,9 @@ import { StepperElement } from "../../models/stepperElement"
 import FormGroupElements from "../../components/formgroup/FormGroup"
 import LoadingPlaceholder from "../../components/loading/LoadingPlaceholder"
 import PageHeader from "../../components/pageheader/PageHeader"
+import { toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom"
 
 
 
@@ -24,6 +27,8 @@ export default function CreateActivity() {
 
     const [periodId, setPeriodId] = useState(0);
 
+    const navigate = useNavigate();
+
     const handleChange = (event: SelectChangeEvent) => {
         setSelectItem(event.target.value as string);
         handleTextChange(event.target.value, setPeriodId);
@@ -37,6 +42,7 @@ export default function CreateActivity() {
     },[])
 
     function createActivityHandler() {
+        setLoading(true);
         const activity_to_create: ActivityCreation = {
             name: name,
             description: description,
@@ -45,8 +51,12 @@ export default function CreateActivity() {
         
         var body = JSON.stringify(activity_to_create);
         console.log(body);
-
-        agent.Activity.create(body);
+        agent.Activity.create(body)
+            .then(() => toast.success("Attivita aggiunta con successo"))
+            .finally(() => {
+                setLoading(false);
+                navigate('/activities');
+            });
     }
 
     function handleTextChange(value: string, func: React.Dispatch<React.SetStateAction<any>>) {

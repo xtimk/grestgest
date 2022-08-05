@@ -1,4 +1,5 @@
 import { Divider, Grid } from '@mui/material';
+import { ToastContainer } from 'react-toastify';
 import AppRoutes from '../../routes/Routes';
 
 export default function ApplicationBody() {
@@ -13,6 +14,7 @@ export default function ApplicationBody() {
         <AppRoutes />
         </Grid>
       </Grid>
+      <ToastContainer />
     </>
   );
 }

@@ -1,4 +1,6 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 axios.defaults.baseURL = 'http://localhost:5000/api/'
 
@@ -9,6 +11,15 @@ const requestHeaderCfg : AxiosRequestConfig<{}> = {
 }
 
 const responseBody = (response: AxiosResponse) => response.data;
+
+axios.interceptors.response.use(response => {
+    console.log("Intercepted");
+    return response;
+}, (error: AxiosError) => {
+    console.log('caught by interceptor');
+    const {status} = error.response!;
+    toast.error("Errore durante l'operazione. Stato " + status);
+})
 
 const requests = {
     get: (url: string) => axios.get(url).then(responseBody),
