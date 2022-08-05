@@ -3,10 +3,15 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AddIcon from '@mui/icons-material/Add';
 import { Interval } from "../../app/models/interval";
+import agent from "../../app/api/agent";
+import LoadingPlaceholder from "../loading/LoadingPlaceholder";
 
 
 export default function Intervals() {
-    const [activities, setActivities] = useState<Interval[]>([]);
+    const [intervals, setIntervals] = useState<Interval[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    const pageTitle = "Elenco intervalli temporali"
 
     function renderDay(dayasint : number) {
         switch(dayasint) {
@@ -29,18 +34,32 @@ export default function Intervals() {
       }
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/interval/GetAll')
-          .then(response => response.json())
-          .then(data => setActivities(data))
-      }, [])
+        agent.Interval.list()
+            .then(intervals => setIntervals(intervals))
+            .catch(error => console.log(error))
+            .finally(() => setLoading(false))
+    },[])
 
-
+    if(loading) {
+        return (
+            <>
+                <Toolbar />
+                <Divider />
+                <Toolbar>
+                    <Typography variant="h6">{pageTitle}</Typography>
+                </Toolbar>
+                <Divider />
+                <LoadingPlaceholder />
+            </>
+        )
+    }
+    
     return (
         <>
             <Toolbar />
             <Divider />
             <Toolbar>
-                <Typography variant="h6">Elenco intervalli temporali</Typography>
+                <Typography variant="h6">{pageTitle}</Typography>
             </Toolbar>
             <Divider />
             <TableContainer>
@@ -55,7 +74,7 @@ export default function Intervals() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {activities.map(item => (
+                        {intervals.map(item => (
                             <TableRow key={item.id}>
                             <TableCell>{item.id}</TableCell>
                             <TableCell>{item.name}</TableCell>

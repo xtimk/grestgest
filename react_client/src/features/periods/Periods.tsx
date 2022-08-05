@@ -3,24 +3,43 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AddIcon from '@mui/icons-material/Add';
 import { Period } from "../../app/models/period";
+import agent from "../../app/api/agent";
+import LoadingPlaceholder from "../loading/LoadingPlaceholder";
 
 
 export default function Periods() {
-    const [activities, setActivities] = useState<Period[]>([]);
+    const [periods, setPeriods] = useState<Period[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    const pageTitle = "Elenco Periodi";
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/period/GetAll')
-          .then(response => response.json())
-          .then(data => setActivities(data))
-      }, [])
+        agent.Period.list()
+            .then(periods => setPeriods(periods))
+            .catch(error => console.log(error))
+            .finally(() => setLoading(false))
+    },[])
 
+    if(loading) {
+        return (
+            <>
+                <Toolbar />
+                <Divider />
+                <Toolbar>
+                    <Typography variant="h6">{pageTitle}</Typography>
+                </Toolbar>
+                <Divider />
+                <LoadingPlaceholder />
+            </>
+        )
+    }
 
     return (
         <>
             <Toolbar />
             <Divider />
             <Toolbar>
-                <Typography variant="h6">Elenco Periodi</Typography>
+                <Typography variant="h6">{pageTitle}</Typography>
             </Toolbar>
             <Divider />
             <TableContainer>
@@ -33,7 +52,7 @@ export default function Periods() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {activities.map(item => (
+                        {periods.map(item => (
                             <TableRow key={item.id}>
                             <TableCell>{item.id}</TableCell>
                             <TableCell>{item.name}</TableCell>
