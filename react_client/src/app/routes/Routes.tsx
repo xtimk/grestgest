@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
-import AboutPage from "../pages/about/AboutPage";
-import Activities from "../pages/activities/activities";
+import AboutPage from "../pages/about/About";
+import Activities from "../pages/activities/Activities";
 import CreateActivity from "../pages/activities/CreateActivity";
 import Intervals from "../pages/intervals/Intervals";
 import Periods from "../pages/periods/Periods";
