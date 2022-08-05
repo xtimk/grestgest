@@ -1,10 +1,10 @@
 import { Route, Routes } from "react-router-dom";
 import AboutPage from "../pages/about/About";
-import Activities from "../pages/activities/Activities";
 import CreateActivity from "../pages/activities/CreateActivity";
 import Intervals from "../pages/intervals/Intervals";
 import Periods from "../pages/periods/Periods";
 import Home from "../pages/home/Home";
+import Activities from "../pages/activities/activities";
 
 export default function AppRoutes() {
     return (

@@ -1,6 +1,6 @@
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 import { useState } from 'react';
-import ApplicationBody from '../components/appbody/Appbody';
+import ApplicationBody from '../components/appbody/appbody';
 import AppMenus from '../components/appmenus/AppMenus';
 
 function App() {
