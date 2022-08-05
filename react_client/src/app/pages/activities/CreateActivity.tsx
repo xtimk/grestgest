@@ -1,15 +1,12 @@
 import { Button, Divider, MenuItem, Select, SelectChangeEvent, TextField, Toolbar } from "@mui/material"
-import axios from "axios"
 import React, { useEffect, useState } from "react"
 import agent from "../../api/agent"
-import { Activity, ActivityCreation } from "../../models/activity"
+import { ActivityCreation } from "../../models/activity"
 import { Period } from "../../models/period"
 import { StepperElement } from "../../models/stepperElement"
-import { WizardStep } from "../../models/wizard"
 import FormGroupElements from "../../components/formgroup/FormGroup"
 import LoadingPlaceholder from "../../components/loading/LoadingPlaceholder"
 import PageHeader from "../../components/pageheader/PageHeader"
-import HorizontalLinearStepper from "../../components/wizard/Wizard1"
 
 
 
@@ -32,13 +29,6 @@ export default function CreateActivity() {
         handleTextChange(event.target.value, setPeriodId);
     };
 
-    // useEffect(() => {
-    // axios.get('http://localhost:5000/api/Period/GetAll')
-    //     .then(response => setPeriod(response.data))
-    //     .catch(error => console.log(error))
-    //     .finally(() => setLoading(false))
-    // }, [])
-
     useEffect(() => {
         agent.Period.list()
             .then(period => setPeriod(period))
@@ -46,7 +36,7 @@ export default function CreateActivity() {
             .finally(() => setLoading(false))
     },[])
 
-    function createActivity() {
+    function createActivityHandler() {
         const activity_to_create: ActivityCreation = {
             name: name,
             description: description,
@@ -107,25 +97,24 @@ export default function CreateActivity() {
         }
     ]
     
-    const createActivitySteps : WizardStep[] = [
-        {
-            steptitle: "Nome e descrizione",
-            isOptional: false,
-            content: <FormGroupElements elements={FirstStepElements} />
-        },
-        {
-            steptitle: "Selezione periodo attività",
-            isOptional: false,
-            content: <FormGroupElements elements={SecondStepElements}/>
-        }
-    ]
+    // const createActivitySteps : WizardStep[] = [
+    //     {
+    //         steptitle: "Nome e descrizione",
+    //         isOptional: false,
+    //         content: <FormGroupElements elements={FirstStepElements} />
+    //     },
+    //     {
+    //         steptitle: "Selezione periodo attività",
+    //         isOptional: false,
+    //         content: <FormGroupElements elements={SecondStepElements}/>
+    //     }
+    // ]
 
     if (loading) {
         return <LoadingPlaceholder />
     }
 
     return (
-        // <HorizontalLinearStepper steps={createActivitySteps}/>
         <>
             <PageHeader pageTitle="Crea Attività"/>
             <Toolbar />
@@ -133,7 +122,7 @@ export default function CreateActivity() {
             <Toolbar />
             <Divider />
             <Toolbar>
-                <Button variant="outlined" size="large" onClick={createActivity}>Crea</Button>
+                <Button variant="outlined" size="large" onClick={createActivityHandler}>Crea</Button>
             </Toolbar>
         </>
     )

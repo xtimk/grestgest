@@ -24,7 +24,6 @@ import PeriodMenuItem from './PeriodMenu';
 import IntervalMenuItem from './IntervalMenu';
 import HomeMenuItem from './HomeMenu';
 import { Link } from 'react-router-dom';
-import HomeIcon from '@mui/icons-material/Home';
 
 const drawerWidth = 240;
 
