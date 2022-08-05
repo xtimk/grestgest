@@ -8,6 +8,7 @@ import agent from "../../api/agent";
 import PageHeader from "../../components/pageheader/PageHeader";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { AppTableParams } from "../../models/apptable";
 
 
 export default function Activities() {
