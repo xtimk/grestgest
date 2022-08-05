@@ -1,6 +1,8 @@
 import { Button, Divider, MenuItem, Select, SelectChangeEvent, TextField, Toolbar } from "@mui/material"
 import axios from "axios"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
+import agent from "../../app/api/agent"
+import { Activity, ActivityCreation } from "../../app/models/activity"
 import { Period } from "../../app/models/period"
 import { StepperElement } from "../../app/models/stepperElement"
 import { WizardStep } from "../../app/models/wizard"
@@ -17,25 +19,48 @@ export default function CreateActivity() {
 
     const [selectItem, setSelectItem] = useState('');
 
-    const handleChange = (event: SelectChangeEvent) => {
-        setSelectItem(event.target.value as string);
-    };
-
     const [loading, setLoading] = useState(true);
 
+    const [name, setName] = useState('');
+
+    const [description, setDescription] = useState('');
+
+    const [periodId, setPeriodId] = useState(0);
+
+    const handleChange = (event: SelectChangeEvent) => {
+        setSelectItem(event.target.value as string);
+        handleTextChange(event.target.value, setPeriodId);
+    };
+
+    // useEffect(() => {
+    // axios.get('http://localhost:5000/api/Period/GetAll')
+    //     .then(response => setPeriod(response.data))
+    //     .catch(error => console.log(error))
+    //     .finally(() => setLoading(false))
+    // }, [])
+
     useEffect(() => {
-    axios.get('http://localhost:5000/api/Period/GetAll')
-        .then(response => setPeriod(response.data))
-        .catch(error => console.log(error))
-        .finally(() => setLoading(false))
-    }, [])
+        agent.Period.list()
+            .then(period => setPeriod(period))
+            .catch(error => console.log(error))
+            .finally(() => setLoading(false))
+    },[])
 
     function createActivity() {
-        var name = document.getElementById("Name");
-        var description = document.getElementById("Description");
-        var periodId = document.getElementById("PeriodId");
+        const activity_to_create: ActivityCreation = {
+            name: name,
+            description: description,
+            periodId: periodId
+        }
+        
+        var body = JSON.stringify(activity_to_create);
+        console.log(body);
 
-        console.log(name);
+        agent.Activity.create(body);
+    }
+
+    function handleTextChange(value: string, func: React.Dispatch<React.SetStateAction<any>>) {
+        func(value);
     }
 
     const FirstStepElements : StepperElement[] = [
@@ -44,7 +69,7 @@ export default function CreateActivity() {
             isOpt: false,
             element: (
             <>
-                <TextField id="Name" label="Nome" variant="outlined" />
+                <TextField id="Name" label="Nome" variant="outlined" onChange={(e) => handleTextChange(e.target.value, setName)}/>
             </>
             )
         },
@@ -53,7 +78,7 @@ export default function CreateActivity() {
             isOpt: false,
             element: (
             <>
-                <TextField id="Description" label="Descrizione" variant="outlined" />
+                <TextField id="Description" label="Descrizione" variant="outlined" onChange={(e) => handleTextChange(e.target.value, setDescription)}/>
             </>
             )
         }

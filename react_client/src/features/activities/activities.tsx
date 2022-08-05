@@ -6,6 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 import axios from "axios";
 import LoadingPlaceholder from "../loading/LoadingPlaceholder";
 import PageHeader from "../pageheader/PageHeader";
+import agent from "../../app/api/agent";
 
 
 export default function Activities() {
@@ -13,11 +14,11 @@ export default function Activities() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-    axios.get('http://localhost:5000/api/activity/GetAll')
-        .then(response => setActivities(response.data))
-        .catch(error => console.log(error))
-        .finally(() => setLoading(false))
-    }, [])
+        agent.Activity.list()
+            .then(activities => setActivities(activities))
+            .catch(error => console.log(error))
+            .finally(() => setLoading(false))
+    },[])
 
     if(loading) {
         return (
@@ -33,6 +34,8 @@ export default function Activities() {
         )
     }
 
+    const DeleteActivity = (activityId : number) => (agent.Activity.delete(activityId));
+
     return (
         <>
             <PageHeader pageTitle="Elenco Attività"/>
@@ -44,6 +47,7 @@ export default function Activities() {
                             <TableCell>Nome</TableCell>
                             <TableCell>Descrizione</TableCell>
                             <TableCell>Quando</TableCell>
+                            <TableCell>Azioni</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -52,7 +56,10 @@ export default function Activities() {
                             <TableCell>{item.id}</TableCell>
                             <TableCell>{item.name}</TableCell>
                             <TableCell>{item.description}</TableCell>
-                            <TableCell>{item.period.name}</TableCell>
+                            <TableCell>{item.period?.name}</TableCell>
+                            <TableCell>
+                                <Button onClick={() => DeleteActivity(item.id)}>Cancella</Button>
+                            </TableCell>
                         </TableRow>
                         ))}
                     </TableBody>
