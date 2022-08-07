@@ -53,16 +53,16 @@ namespace API.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete(int activityId) {
-            var activity_to_delete = await _context.Activities.FindAsync(activityId);
+        public async Task<IActionResult> Delete(int id) {
+            var activity_to_delete = await _context.Activities.FindAsync(id);
             if(activity_to_delete == null)
             {
-                _logger.LogWarning("You tried to delete an activity that does not exists. The id of the non-existent activity is: " + activityId);
+                _logger.LogWarning("You tried to delete an activity that does not exists. The id of the non-existent activity is: " + id);
                 return Ok();
             }
             else
             {
-                _logger.LogInformation("Requested the delete of activity with id " + activityId);
+                _logger.LogInformation("Requested the delete of activity with id " + id);
                 _context.Activities.Remove(activity_to_delete);
                 await _context.SaveChangesAsync();
                 return Ok();

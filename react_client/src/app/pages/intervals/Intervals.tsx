@@ -5,6 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { Interval, renderDay } from "../../models/interval";
 import agent from "../../api/agent";
 import LoadingPlaceholder from "../../components/loading/LoadingPlaceholder";
+import { toast } from "react-toastify";
 
 
 export default function Intervals() {
@@ -19,6 +20,17 @@ export default function Intervals() {
             .catch(error => console.log(error))
             .finally(() => setLoading(false))
     },[])
+
+    const DeleteInterval = (interval : Interval) => (
+        agent.Interval.delete(interval.id)
+            .then(() => {
+                toast.success("Intervallo cancellato con successo");
+                setIntervals(intervals.filter(item=>item!==interval));
+            })
+            .finally(() => {
+                setLoading(false);
+            })
+    );
 
     if(loading) {
         return (
@@ -51,6 +63,7 @@ export default function Intervals() {
                             <TableCell>Giorno</TableCell>
                             <TableCell>Ora Inizio</TableCell>
                             <TableCell>Ora Fine</TableCell>
+                            <TableCell>Azioni</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -61,6 +74,9 @@ export default function Intervals() {
                             <TableCell>{renderDay(item.day)}</TableCell>
                             <TableCell>{item.startingTime}</TableCell>
                             <TableCell>{item.endingTime}</TableCell>
+                            <TableCell>
+                                <Button onClick={() => DeleteInterval(item)}>Cancella</Button>
+                            </TableCell>
                         </TableRow>
                         ))}
                     </TableBody>
