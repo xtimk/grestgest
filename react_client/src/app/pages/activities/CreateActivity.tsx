@@ -10,6 +10,7 @@ import PageHeader from "../../components/pageheader/PageHeader"
 import { toast } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom"
+import BaseDropdownList, { DropdownListItem } from "../../components/dropdowns/BaseDropdownList"
 
 
 
@@ -29,17 +30,19 @@ export default function CreateActivity() {
 
     const navigate = useNavigate();
 
-    const handleChange = (event: SelectChangeEvent) => {
-        setSelectItem(event.target.value as string);
-        handleTextChange(event.target.value, setPeriodId);
-    };
-
     useEffect(() => {
         agent.Period.list()
             .then(period => setPeriod(period))
             .catch(error => console.log(error))
             .finally(() => setLoading(false))
     },[])
+
+    const PeriodDropdownListItems : DropdownListItem[] = period.map(item => (
+        {
+            value: item.id,
+            renderedValue: item.name,
+        }
+    ))
 
     function createActivityHandler() {
         setLoading(true);
@@ -89,36 +92,10 @@ export default function CreateActivity() {
             label: "Selezione periodo attivita",
             isOpt: false,
             element: (
-            <>
-                <Select
-                    labelId="Periodo"
-                    id="periodId"
-                    value={selectItem}
-                    label="Periodo *"
-                    onChange={handleChange}
-                    variant='outlined'
-                >
-                    {period.map(item => (
-                        <MenuItem value={item.id}>{item.name}</MenuItem>
-                    ))}
-                </Select>
-            </>
+                <BaseDropdownList label="Periodo attivita" setValue={setPeriodId} items={PeriodDropdownListItems}/>
             )
         }
     ]
-    
-    // const createActivitySteps : WizardStep[] = [
-    //     {
-    //         steptitle: "Nome e descrizione",
-    //         isOptional: false,
-    //         content: <FormGroupElements elements={FirstStepElements} />
-    //     },
-    //     {
-    //         steptitle: "Selezione periodo attività",
-    //         isOptional: false,
-    //         content: <FormGroupElements elements={SecondStepElements}/>
-    //     }
-    // ]
 
     if (loading) {
         return <LoadingPlaceholder />
