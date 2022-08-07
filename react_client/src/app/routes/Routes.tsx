@@ -5,17 +5,24 @@ import Intervals from "../pages/intervals/Intervals";
 import Periods from "../pages/periods/Periods";
 import Home from "../pages/home/Home";
 import Activities from "../pages/activities/activities";
+import CreateInterval from "../pages/intervals/CreateInterval";
 
 export default function AppRoutes() {
     return (
         <Routes>
+            {/* Root */}
             <Route path='/' element={<Home />}></Route>
+            {/* Activities routes */}
             <Route path='/activities' element={<Activities />}></Route>
+            <Route path="/activities/create" element={<CreateActivity />}></Route>
+            {/* Periods routes */}
+            <Route path='/periods' element={<Periods />}></Route>
+            {/* Intervals routes */}
+            <Route path='/intervals' element={<Intervals />}></Route>
+            <Route path="/intervals/create" element={<CreateInterval />}></Route>
+            {/* About routes */}
             <Route path='/about' element={<AboutPage />}></Route>
             {/* <Route path='/wizard' element={<HorizontalLinearStepper steps={createActivitySteps}/>}></Route> */}
-            <Route path='/periods' element={<Periods />}></Route>
-            <Route path='/intervals' element={<Intervals />}></Route>
-            <Route path="/activities/create" element={<CreateActivity />}></Route>
         </Routes>
     )
 }

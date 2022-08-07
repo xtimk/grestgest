@@ -2,7 +2,7 @@ import { Button, Container, Divider, Table, TableBody, TableCell, TableContainer
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AddIcon from '@mui/icons-material/Add';
-import { Interval } from "../../models/interval";
+import { Interval, renderDay } from "../../models/interval";
 import agent from "../../api/agent";
 import LoadingPlaceholder from "../../components/loading/LoadingPlaceholder";
 
@@ -12,26 +12,6 @@ export default function Intervals() {
     const [loading, setLoading] = useState(true);
 
     const pageTitle = "Elenco intervalli temporali"
-
-    function renderDay(dayasint : number) {
-        switch(dayasint) {
-            case 1:
-                return 'Lunedì';
-            case 2:
-                return 'Martedì';
-            case 3:
-                return 'Mercoledì';
-            case 4:
-                return 'Giovedì';
-            case 5:
-                return 'Venerdì';
-            case 6:
-                return 'Sabato';
-            case 7:
-                return 'Domenica';
-                                            
-        }
-      }
 
     useEffect(() => {
         agent.Interval.list()
@@ -88,7 +68,7 @@ export default function Intervals() {
             </TableContainer>
             <Toolbar />
             <Container>
-                <Button variant="outlined" startIcon={<AddIcon />} component={Link} to="/wizard">
+                <Button variant="outlined" startIcon={<AddIcon />} component={Link} to="/intervals/create">
                     Aggiungi Intervallo
                 </Button>
             </Container>

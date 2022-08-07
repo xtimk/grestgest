@@ -39,7 +39,8 @@ const Period = {
 }
 
 const Interval = {
-    list: () => requests.get('interval/GetAll')
+    list: () => requests.get('interval/GetAll'),
+    create: (body : {}) => requests.post('interval/Create', body),
 }
 
 const agent = {
