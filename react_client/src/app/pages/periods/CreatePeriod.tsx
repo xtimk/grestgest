@@ -1,5 +1,5 @@
-import { Button, Divider, MenuItem, Select, SelectChangeEvent, TextField, Toolbar } from "@mui/material"
-import React, { useState } from "react"
+import { Button, Divider, TextField, Toolbar } from "@mui/material"
+import React, { useEffect, useState } from "react"
 import agent from "../../api/agent"
 import { StepperElement } from "../../models/stepperElement"
 import FormGroupElements from "../../components/formgroup/FormGroup"
@@ -8,37 +8,38 @@ import PageHeader from "../../components/pageheader/PageHeader"
 import { toast } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom"
-import { Days, IntervalCreation, renderDay } from "../../models/interval"
-import BasicTimePicker from "../../components/timepicker/TextFieldTimePicker"
-import BaseDropdownList, { DropdownListItem } from "../../components/dropdowns/BaseDropdownList"
+import { Interval } from "../../models/interval"
+import { DropdownListItem } from "../../components/dropdowns/BaseDropdownList"
 import { PeriodCreation } from "../../models/period"
 import MultiSelectDropdownList from "../../components/dropdowns/MultiSelectDropdownList"
 
 export default function CreatePeriod() {
 
+    const navigate = useNavigate();
+    
     const [loading, setLoading] = useState(false);
 
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [intervalIds, setIntervalIds] = useState([]);
+    const [intervals, setIntervals] = useState<Interval[]>([]);
 
-    
-    const [day, setDay] = useState(1);
-    const DaysDropDownListItems : DropdownListItem[] = Days.map(item => (
+    useEffect(() => {
+        agent.Interval.list()
+            .then(i => setIntervals(i))
+            .catch(error => console.log(error))
+            .finally(() => setLoading(false))
+    },[])
+
+    const IntervalsDropdownListItems : DropdownListItem[] = intervals.map(item => (
         {
-            value: item,
-            renderedValue: renderDay(item),
+            value: item.id,
+            renderedValue: item.name,
         }
     ))
 
-    const [startingTime, setStartingTime] = useState('');   
-    
-    const [endingTime, setEndingTime] = useState('');
-
-    const navigate = useNavigate();
-
     function createItemHandler() {
-        setLoading(true);
+        // setLoading(true);
         const item_to_create: PeriodCreation = {
             name: name,
             description: description,
@@ -46,10 +47,10 @@ export default function CreatePeriod() {
         }
         
         var body = JSON.stringify(item_to_create);
-        console.log(body);
+        // console.log(body);
 
         agent.Period.create(body)
-            .then(() => toast.success("Intervallo aggiunto con successo"))
+            .then(() => toast.success("Periodo aggiunto con successo"))
             .finally(() => {
                 setLoading(false);
                 navigate('/periods');
@@ -79,7 +80,7 @@ export default function CreatePeriod() {
             label: "Selezione intervalli",
             isOpt: false,
             element : (
-                <MultiSelectDropdownList />
+                <MultiSelectDropdownList label="intervalli" setValue={setIntervalIds} items={IntervalsDropdownListItems}/>
             )
         }
     ]
