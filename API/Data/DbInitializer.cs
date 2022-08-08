@@ -68,6 +68,34 @@ namespace API.Data
                     StartingTime = new TimeOnly(14,0),
                     EndingTime = new TimeOnly(17,0)
                 },
+                new Interval()
+                {
+                    Name = "Giovedi Mattina",
+                    Day = DayOfWeek.Thursday,
+                    StartingTime = new TimeOnly(9,0),
+                    EndingTime = new TimeOnly(10,0)
+                },
+                new Interval()
+                {
+                    Name = "Giovedi Pomeriggio",
+                    Day = DayOfWeek.Thursday,
+                    StartingTime = new TimeOnly(14,0),
+                    EndingTime = new TimeOnly(17,0)
+                },
+                new Interval()
+                {
+                    Name = "Venerdi Mattina",
+                    Day = DayOfWeek.Friday,
+                    StartingTime = new TimeOnly(9,0),
+                    EndingTime = new TimeOnly(10,0)
+                },
+                new Interval()
+                {
+                    Name = "Venerdi Pomeriggio",
+                    Day = DayOfWeek.Friday,
+                    StartingTime = new TimeOnly(14,0),
+                    EndingTime = new TimeOnly(17,0)
+                },
             };
 
             foreach (var item in intervals)
@@ -86,6 +114,12 @@ namespace API.Data
                     Name = "Lunedi/Mercoledi mattina",
                     Description = "Periodo lunedi/mercoledi mattina",
                     Intervals = new List<Interval>()
+                },
+                new Period()
+                {
+                    Name = "Lunedi/Mercoledi pomeriggio",
+                    Description = "Periodo lunedi/mercoledi pomeriggio",
+                    Intervals = new List<Interval>()
                 }
             };
 
@@ -98,13 +132,19 @@ namespace API.Data
 
         private static async Task InitializeIntervalPeriod(GrestContext context)
         {
-            var period_lun_mer = await context.Periods.OrderBy(x => x.Name).FirstAsync();
-
+            // Lun/Mer mattina
+            var period_lun_mer_mat = await context.Periods.OrderBy(x => x.Name).FirstAsync(x => x.Name == "Lunedi/Mercoledi mattina");
             var interval_lun_mat = await context.Intervals.OrderBy(x => x.Name).FirstAsync(x => x.Name == "Lunedi Mattina");
             var interval_mer_mat = await context.Intervals.OrderBy(x => x.Name).FirstAsync(x => x.Name == "Mercoledi Mattina");
+            period_lun_mer_mat.Intervals.Add(interval_lun_mat);
+            period_lun_mer_mat.Intervals.Add(interval_mer_mat);
 
-            period_lun_mer.Intervals.Add(interval_lun_mat);
-            period_lun_mer.Intervals.Add(interval_mer_mat);
+            // Lun/Mer pomeriggio
+            var period_lun_mer_pom = await context.Periods.OrderBy(x => x.Name).FirstAsync(x => x.Name == "Lunedi/Mercoledi pomeriggio");
+            var interval_lun_pom = await context.Intervals.OrderBy(x => x.Name).FirstAsync(x => x.Name == "Lunedi Pomeriggio");
+            var interval_mer_pom = await context.Intervals.OrderBy(x => x.Name).FirstAsync(x => x.Name == "Mercoledi Pomeriggio");
+            period_lun_mer_pom.Intervals.Add(interval_lun_pom);
+            period_lun_mer_pom.Intervals.Add(interval_mer_pom);
 
             await context.SaveChangesAsync();
 
@@ -112,18 +152,40 @@ namespace API.Data
 
         private static async Task InitializeActivities(GrestContext context)
         {
-
-            var period_lun_mer_mattina = await context.Periods.OrderBy(x => x.Name).FirstAsync(x => x.Name == "Lunedi/Mercoledi mattina");
-
-            var calcio_bambini = new Activity()
+            // Calcio bambini
+            var period = await context.Periods.OrderBy(x => x.Name).FirstAsync(x => x.Name == "Lunedi/Mercoledi mattina");
+            var activity = new Activity()
             {
                 Name = "Calcio bambini",
                 Description = "Fino a 3a elementare",
-                Period = period_lun_mer_mattina,
+                Period = period,
                 MaxSeats = 50,
             };
+            await context.Activities.AddAsync(activity);
 
-            await context.Activities.AddAsync(calcio_bambini);
+            // Falegnameria
+            period = await context.Periods.OrderBy(x => x.Name).FirstAsync(x => x.Name == "Lunedi/Mercoledi mattina");
+            activity = new Activity()
+            {
+                Name = "Falegnameria",
+                Description = "Dalla 3a elementare",
+                Period = period,
+                MaxSeats = 35,
+            };
+            await context.Activities.AddAsync(activity);
+
+            // Gruppo bambini
+            period = await context.Periods.OrderBy(x => x.Name).FirstAsync(x => x.Name == "Lunedi/Mercoledi pomeriggio");
+            activity = new Activity()
+            {
+                Name = "Gruppo bambini (piccoli)",
+                Description = "Fino a 2a elementare",
+                Period = period,
+                MaxSeats = 30,
+            };
+            await context.Activities.AddAsync(activity);
+
+
             await context.SaveChangesAsync();
         }
 
