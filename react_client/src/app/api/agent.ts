@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import ProblemDetail from "../models/problemDetail";
 
-axios.defaults.baseURL = 'http://localhost:5000/api/'
+axios.defaults.baseURL = 'http://192.168.1.113:5000/api/'
 
 const requestHeaderCfg : AxiosRequestConfig<{}> = {
     headers: {
