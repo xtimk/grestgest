@@ -24,7 +24,7 @@ export default function Periods() {
     const DeletePeriod = (period : Period) => (
         agent.Period.delete(period.id)
             .then(() => {
-                toast.success("Intervallo cancellato con successo");
+                toast.success("Periodo cancellato con successo");
                 setPeriods(periods.filter(item=>item!==period));
             })
             .finally(() => {

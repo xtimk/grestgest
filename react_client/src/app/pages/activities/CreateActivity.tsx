@@ -1,4 +1,4 @@
-import { Button, Divider, MenuItem, Select, SelectChangeEvent, TextField, Toolbar } from "@mui/material"
+import { Button, Divider, Toolbar } from "@mui/material"
 import React, { useEffect, useState } from "react"
 import agent from "../../api/agent"
 import { ActivityCreation } from "../../models/activity"
@@ -11,24 +11,20 @@ import { toast } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom"
 import BaseDropdownList, { DropdownListItem } from "../../components/dropdowns/BaseDropdownList"
+import BasicTextField from "../../components/textfields/BasicTextField"
 
 
 
 
 export default function CreateActivity() {
-    const [period, setPeriod] = useState<Period[]>([]);
-
-    const [selectItem, setSelectItem] = useState('');
-
-    const [loading, setLoading] = useState(true);
-
-    const [name, setName] = useState('');
-
-    const [description, setDescription] = useState('');
-
-    const [periodId, setPeriodId] = useState(0);
-
     const navigate = useNavigate();
+    
+    const [loading, setLoading] = useState(true);
+    
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
+    const [period, setPeriod] = useState<Period[]>([]);
+    const [periodId, setPeriodId] = useState(0);
 
     useEffect(() => {
         agent.Period.list()
@@ -44,7 +40,7 @@ export default function CreateActivity() {
         }
     ))
 
-    function createActivityHandler() {
+    function createItemHandler() {
         setLoading(true);
         const activity_to_create: ActivityCreation = {
             name: name,
@@ -53,7 +49,7 @@ export default function CreateActivity() {
         }
         
         var body = JSON.stringify(activity_to_create);
-        console.log(body);
+        // console.log(body);
         agent.Activity.create(body)
             .then(() => toast.success("Attivita aggiunta con successo"))
             .finally(() => {
@@ -62,32 +58,22 @@ export default function CreateActivity() {
             });
     }
 
-    function handleTextChange(value: string, func: React.Dispatch<React.SetStateAction<any>>) {
-        func(value);
-    }
 
     const FirstStepElements : StepperElement[] = [
         {
             label: "Nome attivita",
             isOpt: false,
             element: (
-            <>
-                <TextField id="Name" label="Nome" variant="outlined" onChange={(e) => handleTextChange(e.target.value, setName)}/>
-            </>
+                <BasicTextField label="Nome" setValue={setName}/>
             )
         },
         {
             label: "Descrizione attivita",
             isOpt: false,
             element: (
-            <>
-                <TextField id="Description" label="Descrizione" variant="outlined" onChange={(e) => handleTextChange(e.target.value, setDescription)}/>
-            </>
+                <BasicTextField label="Descrizione" setValue={setDescription}/>
             )
-        }
-    ]
-    
-    const SecondStepElements : StepperElement[] = [
+        },
         {
             label: "Selezione periodo attivita",
             isOpt: false,
@@ -105,11 +91,11 @@ export default function CreateActivity() {
         <>
             <PageHeader pageTitle="Crea Attività"/>
             <Toolbar />
-            <FormGroupElements elements={[...FirstStepElements,...SecondStepElements]} />
+            <FormGroupElements elements={FirstStepElements} />
             <Toolbar />
             <Divider />
             <Toolbar>
-                <Button variant="outlined" size="large" onClick={createActivityHandler}>Crea</Button>
+                <Button variant="outlined" size="large" onClick={createItemHandler}>Crea</Button>
             </Toolbar>
         </>
     )

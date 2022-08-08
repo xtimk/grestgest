@@ -4,6 +4,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import moment from 'moment';
+import BaseFormControl from '../formcontrol/BaseFormControl';
 
 interface Props {
     label: string
@@ -25,13 +26,17 @@ export default function BasicTimePicker({label, setStartingTime} : Props) {
     }
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <TimePicker
-        label={label}
-        value={value}
-        onChange={handleChange}
-        renderInput={(params) => <TextField {...params} />}
-      />
-    </LocalizationProvider>
+    <BaseFormControl insideElement={(
+      <>      
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <TimePicker
+          label={label}
+          value={value}
+          onChange={handleChange}
+          renderInput={(params) => <TextField {...params} />}
+        />
+      </LocalizationProvider>
+      </>
+    )}/>
   );
 }

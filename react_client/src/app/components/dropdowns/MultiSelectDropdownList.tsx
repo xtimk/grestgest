@@ -4,9 +4,9 @@ import Box from '@mui/material/Box';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
+import BaseFormControl from '../formcontrol/BaseFormControl';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -55,36 +55,38 @@ export default function MultiSelectDropdownList({label, setValue, items}: Props)
   };
 
   return (
-    <div>
-      <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-chip-label">{label}</InputLabel>
-        <Select
-          labelId="demo-multiple-chip-label"
-          id="demo-multiple-chip"
-          multiple
-          value={item}
-          onChange={handleChange}
-          input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-          renderValue={(selected) => (
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-              {selected.map((value) => (
-                <Chip key={items.find(i => (i.value === value))?.renderedValue} label={items.find(i => (i.value === value))?.renderedValue} />
-              ))}
-            </Box>
-          )}
-          MenuProps={MenuProps}
-        >
-          {items.map((dropdownitem) => (
-            <MenuItem
-              key={dropdownitem.value}
-              value={dropdownitem.value}
-              style={getStyles(dropdownitem.value, item, theme)}
-            >
-              {dropdownitem.renderedValue}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </div>
+    <>
+      <BaseFormControl insideElement={(
+        <>
+          <InputLabel id="demo-multiple-chip-label">{label}</InputLabel>
+          <Select
+            labelId={label + "-label-id"}
+            id={label + "-id"}
+            multiple
+            value={item}
+            onChange={handleChange}
+            input={<OutlinedInput id={label + "-select-multiple-chip"} label="Chip" />}
+            renderValue={(selected) => (
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                {selected.map((value) => (
+                  <Chip key={items.find(i => (i.value === value))?.renderedValue} label={items.find(i => (i.value === value))?.renderedValue} />
+                ))}
+              </Box>
+            )}
+            MenuProps={MenuProps}
+          >
+            {items.map((dropdownitem) => (
+              <MenuItem
+                key={dropdownitem.value}
+                value={dropdownitem.value}
+                style={getStyles(dropdownitem.value, item, theme)}
+              >
+                {dropdownitem.renderedValue}
+              </MenuItem>
+            ))}
+          </Select>
+        </>
+      )}/>
+    </>
   );
 }

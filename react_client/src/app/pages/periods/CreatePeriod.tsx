@@ -1,5 +1,5 @@
-import { Button, Divider, TextField, Toolbar } from "@mui/material"
-import React, { useEffect, useState } from "react"
+import { Button, Divider, Toolbar } from "@mui/material"
+import { useEffect, useState } from "react"
 import agent from "../../api/agent"
 import { StepperElement } from "../../models/stepperElement"
 import FormGroupElements from "../../components/formgroup/FormGroup"
@@ -12,6 +12,7 @@ import { Interval } from "../../models/interval"
 import { DropdownListItem } from "../../components/dropdowns/BaseDropdownList"
 import { PeriodCreation } from "../../models/period"
 import MultiSelectDropdownList from "../../components/dropdowns/MultiSelectDropdownList"
+import BasicTextField from "../../components/textfields/BasicTextField"
 
 export default function CreatePeriod() {
 
@@ -39,7 +40,7 @@ export default function CreatePeriod() {
     ))
 
     function createItemHandler() {
-        // setLoading(true);
+        setLoading(true);
         const item_to_create: PeriodCreation = {
             name: name,
             description: description,
@@ -57,23 +58,19 @@ export default function CreatePeriod() {
             });
     }
 
-    function handleTextChange(value: string, func: React.Dispatch<React.SetStateAction<any>>) {
-        func(value);
-    }
-
     const InputElements : StepperElement[] = [
         {
             label: "Nome periodo",
             isOpt: false,
             element: (
-                <TextField id="Name" label="Nome" variant="outlined" onChange={(e) => handleTextChange(e.target.value, setName)}/>
+                <BasicTextField label="Nome" setValue={setName}/>
             )
         },
         {
             label: "Descrizione periodo",
             isOpt: false,
             element: (
-                <TextField id="Descrizione" label="Descrizione" variant="outlined" onChange={(e) => handleTextChange(e.target.value, setDescription)}/>
+                <BasicTextField label="Descrizione" setValue={setDescription}/>
             )
         },
         {

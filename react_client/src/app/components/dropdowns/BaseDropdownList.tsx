@@ -1,9 +1,8 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import BaseFormControl from '../formcontrol/BaseFormControl';
 
 interface Props {
     label: string,
@@ -29,8 +28,8 @@ export default function BasicSelect({label, setValue, items}: Props) {
     }
 
     return (
-        <Box sx={{ minWidth: 120 }}>
-            <FormControl fullWidth>
+        <BaseFormControl insideElement={(
+            <>
                 <InputLabel id={label + "-label-id"}>{label}</InputLabel>
                 <Select
                     labelId={label + "-id"}
@@ -43,7 +42,7 @@ export default function BasicSelect({label, setValue, items}: Props) {
                     <MenuItem value={item.value}>{item.renderedValue}</MenuItem>
                 ))}
                 </Select>
-            </FormControl>
-        </Box>
+            </>
+        )}/>
     );
 }

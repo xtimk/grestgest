@@ -1,5 +1,5 @@
-import { Button, Divider, MenuItem, Select, SelectChangeEvent, TextField, Toolbar } from "@mui/material"
-import React, { useState } from "react"
+import { Button, Divider, Toolbar } from "@mui/material"
+import { useState } from "react"
 import agent from "../../api/agent"
 import { StepperElement } from "../../models/stepperElement"
 import FormGroupElements from "../../components/formgroup/FormGroup"
@@ -11,8 +11,10 @@ import { useNavigate } from "react-router-dom"
 import { Days, IntervalCreation, renderDay } from "../../models/interval"
 import BasicTimePicker from "../../components/timepicker/TextFieldTimePicker"
 import BaseDropdownList, { DropdownListItem } from "../../components/dropdowns/BaseDropdownList"
+import BasicTextField from "../../components/textfields/BasicTextField"
 
 export default function CreateInterval() {
+    const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
 
@@ -29,8 +31,6 @@ export default function CreateInterval() {
     const [startingTime, setStartingTime] = useState('');   
     
     const [endingTime, setEndingTime] = useState('');
-
-    const navigate = useNavigate();
 
     function createItemHandler() {
         setLoading(true);
@@ -52,16 +52,12 @@ export default function CreateInterval() {
             });
     }
 
-    function handleTextChange(value: string, func: React.Dispatch<React.SetStateAction<any>>) {
-        func(value);
-    }
-
     const InputElements : StepperElement[] = [
         {
             label: "Nome intervallo",
             isOpt: false,
             element: (
-                <TextField id="Name" label="Nome" variant="outlined" onChange={(e) => handleTextChange(e.target.value, setName)}/>
+                <BasicTextField label="Nome" setValue={setName}/>
             )
         },          
         {
