@@ -44,8 +44,8 @@ namespace API.Data
                 {
                     Name = "Martedi Mattina",
                     Day = DayOfWeek.Tuesday,
-                    StartingTime = new TimeOnly(14,0),
-                    EndingTime = new TimeOnly(17,0)
+                    StartingTime = new TimeOnly(9,0),
+                    EndingTime = new TimeOnly(13,0)
                 },
                 new Interval()
                 {
@@ -73,7 +73,7 @@ namespace API.Data
                     Name = "Giovedi Mattina",
                     Day = DayOfWeek.Thursday,
                     StartingTime = new TimeOnly(9,0),
-                    EndingTime = new TimeOnly(10,0)
+                    EndingTime = new TimeOnly(13,0)
                 },
                 new Interval()
                 {
@@ -87,7 +87,7 @@ namespace API.Data
                     Name = "Venerdi Mattina",
                     Day = DayOfWeek.Friday,
                     StartingTime = new TimeOnly(9,0),
-                    EndingTime = new TimeOnly(10,0)
+                    EndingTime = new TimeOnly(13,0)
                 },
                 new Interval()
                 {
