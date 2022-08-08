@@ -87,8 +87,8 @@ namespace API.Data
             {
                 new Period()
                 {
-                    Name = "Lunedi-Mercoledi mattina",
-                    Description = "Periodo lunedi-mercoledi mattina",
+                    Name = "Lunedi/Mercoledi mattina",
+                    Description = "Periodo lunedi/mercoledi mattina",
                     Intervals = new List<Interval>()
                 }
             };
@@ -122,7 +122,7 @@ namespace API.Data
             var calcio_bambini = new Activity()
             {
                 Name = "Calcio bambini",
-                Description = "Calcio fino a 3a elementare",
+                Description = "Fino a 3a elementare",
                 Period = period_lun_mer_mattina
             };
 
