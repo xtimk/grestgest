@@ -26,5 +26,26 @@ namespace API.Controllers
             var periods = await _context.Periods.Include(x => x.Intervals).ToListAsync();
             return periods;
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody]Period period)
+        {
+            _logger.LogInformation("Requested creation of a new period.");
+
+            var linkedIntervals = new List<Interval>();
+            foreach (var itemId in period.IntervalIds)
+            {
+                var interval_to_add = await _context.Intervals.FindAsync(itemId);
+                linkedIntervals.Add(interval_to_add);
+            }
+            period.Intervals = linkedIntervals;
+
+            await _context.Periods.AddAsync(period);
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("Period successfully created.");
+
+            return Ok();
+        }
     }
 }

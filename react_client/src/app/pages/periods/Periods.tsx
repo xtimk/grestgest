@@ -5,6 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { Period } from "../../models/period";
 import agent from "../../api/agent";
 import LoadingPlaceholder from "../../components/loading/LoadingPlaceholder";
+import { toast } from "react-toastify";
 
 
 export default function Periods() {
@@ -19,6 +20,17 @@ export default function Periods() {
             .catch(error => console.log(error))
             .finally(() => setLoading(false))
     },[])
+
+    const DeletePeriod = (period : Period) => (
+        agent.Period.delete(period.id)
+            .then(() => {
+                toast.success("Intervallo cancellato con successo");
+                setPeriods(periods.filter(item=>item!==period));
+            })
+            .finally(() => {
+                setLoading(false);
+            })
+    );
 
     if(loading) {
         return (
@@ -49,6 +61,7 @@ export default function Periods() {
                             <TableCell>Id</TableCell>
                             <TableCell>Nome</TableCell>
                             <TableCell>Intervalli</TableCell>
+                            <TableCell>Azioni</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -57,6 +70,9 @@ export default function Periods() {
                             <TableCell>{item.id}</TableCell>
                             <TableCell>{item.name}</TableCell>
                             <TableCell>{item.intervals.map(i => (i.name +", "))}</TableCell>
+                            <TableCell>
+                                <Button onClick={() => DeletePeriod(item)}>Cancella</Button>
+                            </TableCell>
                         </TableRow>
                         ))}
                     </TableBody>
@@ -64,7 +80,7 @@ export default function Periods() {
             </TableContainer>
             <Toolbar />
             <Container>
-                <Button variant="outlined" startIcon={<AddIcon />} component={Link} to="/wizard">
+                <Button variant="outlined" startIcon={<AddIcon />} component={Link} to="/periods/create">
                     Aggiungi Periodo
                 </Button>
             </Container>

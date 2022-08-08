@@ -6,3 +6,9 @@ export interface Period {
     description: string;
     intervals: Interval[];
 }
+
+export interface PeriodCreation {
+    name: string;
+    description: string;
+    intervalIds: number[];
+}

@@ -6,6 +6,7 @@ import Periods from "../pages/periods/Periods";
 import Home from "../pages/home/Home";
 import Activities from "../pages/activities/activities";
 import CreateInterval from "../pages/intervals/CreateInterval";
+import CreatePeriod from "../pages/periods/CreatePeriod";
 
 export default function AppRoutes() {
     return (
@@ -17,6 +18,7 @@ export default function AppRoutes() {
             <Route path="/activities/create" element={<CreateActivity />}></Route>
             {/* Periods routes */}
             <Route path='/periods' element={<Periods />}></Route>
+            <Route path='/periods/create' element={<CreatePeriod />}></Route>
             {/* Intervals routes */}
             <Route path='/intervals' element={<Intervals />}></Route>
             <Route path="/intervals/create" element={<CreateInterval />}></Route>

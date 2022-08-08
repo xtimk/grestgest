@@ -50,7 +50,9 @@ const Activity = {
 }
 
 const Period = {
-    list: () => requests.get('period/GetAll')
+    list: () => requests.get('period/GetAll'),
+    create: (body : {}) => requests.post('period/Create', body),
+    delete: (intervalId: number) => requests.delete(`period/Delete?id=${intervalId}`)
 }
 
 const Interval = {
