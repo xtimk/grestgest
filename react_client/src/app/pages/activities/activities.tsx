@@ -57,6 +57,8 @@ export default function Activities() {
                             <TableCell>Id</TableCell>
                             <TableCell>Nome</TableCell>
                             <TableCell>Descrizione</TableCell>
+                            <TableCell>Posti totali</TableCell>
+                            <TableCell>Posti disponibili</TableCell>
                             <TableCell>Quando</TableCell>
                             <TableCell>Azioni</TableCell>
                         </TableRow>
@@ -67,6 +69,8 @@ export default function Activities() {
                             <TableCell>{item.id}</TableCell>
                             <TableCell>{item.name}</TableCell>
                             <TableCell>{item.description}</TableCell>
+                            <TableCell>{item.maxSeats}</TableCell>
+                            <TableCell>-</TableCell>
                             <TableCell>{item.period?.name}</TableCell>
                             <TableCell>
                                 <Button onClick={() => DeleteActivity(item)}>Cancella</Button>

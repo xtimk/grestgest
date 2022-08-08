@@ -4,6 +4,7 @@ export interface Activity {
     id: number;
     name: string;
     description: string;
+    maxSeats: number;
     periodId: number;
     period: Period;
 }
@@ -11,5 +12,6 @@ export interface Activity {
 export interface ActivityCreation {
     name: string;
     description: string;
+    maxSeats: number;
     periodId: number;
 }

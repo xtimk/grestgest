@@ -8,6 +8,7 @@ namespace API.Entities
         public string Name { get; set; }
         [JsonPropertyName("description")]   
         public string Description { get; set; }
+        public int MaxSeats { get; set; }
 
         // Activity has period as foreign key
         [JsonPropertyName("periodId")]   

@@ -113,13 +113,14 @@ namespace API.Data
         private static async Task InitializeActivities(GrestContext context)
         {
 
-            var period_lun_mer_mattina = await context.Periods.OrderBy(x => x.Name).FirstAsync(x => x.Name == "Lunedi-Mercoledi mattina");
+            var period_lun_mer_mattina = await context.Periods.OrderBy(x => x.Name).FirstAsync(x => x.Name == "Lunedi/Mercoledi mattina");
 
             var calcio_bambini = new Activity()
             {
                 Name = "Calcio bambini",
                 Description = "Fino a 3a elementare",
-                Period = period_lun_mer_mattina
+                Period = period_lun_mer_mattina,
+                MaxSeats = 50,
             };
 
             await context.Activities.AddAsync(calcio_bambini);

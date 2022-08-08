@@ -23,6 +23,7 @@ export default function CreateActivity() {
     
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
+    const [maxSeats, setMaxSeats] = useState(0);
     const [period, setPeriod] = useState<Period[]>([]);
     const [periodId, setPeriodId] = useState(0);
 
@@ -45,6 +46,7 @@ export default function CreateActivity() {
         const activity_to_create: ActivityCreation = {
             name: name,
             description: description,
+            maxSeats: maxSeats,
             periodId: periodId
         }
         
@@ -72,6 +74,13 @@ export default function CreateActivity() {
             isOpt: false,
             element: (
                 <BasicTextField label="Descrizione" setValue={setDescription}/>
+            )
+        },
+        {
+            label: "Posti massimi",
+            isOpt: false,
+            element: (
+                <BasicTextField label="Posti massimi" setValue={setMaxSeats}/>
             )
         },
         {
