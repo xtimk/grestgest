@@ -19,19 +19,6 @@ const MenuProps = {
   },
 };
 
-const names = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder',
-];
-
 function getStyles(name: string, personName: readonly string[], theme: Theme) {
   return {
     fontWeight:
@@ -41,47 +28,59 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
   };
 }
 
-export default function MultiSelectDropdownList() {
-  const theme = useTheme();
-  const [personName, setPersonName] = React.useState<string[]>([]);
+interface Props {
+  label: string,
+  setValue: React.Dispatch<React.SetStateAction<any>>,
+  items: DropdownListItem[]
+}
 
-  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
+export interface DropdownListItem {
+  value: any,
+  renderedValue: string
+}
+
+export default function MultiSelectDropdownList({label, setValue, items}: Props) {
+  const theme = useTheme();
+  const [item, setItem] = React.useState<string[]>([]);
+
+  const handleChange = (event: SelectChangeEvent<typeof item>) => {
     const {
       target: { value },
     } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
+
+    const itemsToSet = typeof value === 'string' ? value.split(',') : value;
+
+    setItem(itemsToSet);
+    setValue(itemsToSet);
   };
 
   return (
     <div>
       <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-chip-label">Chip</InputLabel>
+        <InputLabel id="demo-multiple-chip-label">{label}</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           multiple
-          value={personName}
+          value={item}
           onChange={handleChange}
           input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => (
-                <Chip key={value} label={value} />
+                <Chip key={items.find(i => (i.value === value))?.renderedValue} label={items.find(i => (i.value === value))?.renderedValue} />
               ))}
             </Box>
           )}
           MenuProps={MenuProps}
         >
-          {names.map((name) => (
+          {items.map((dropdownitem) => (
             <MenuItem
-              key={name}
-              value={name}
-              style={getStyles(name, personName, theme)}
+              key={dropdownitem.value}
+              value={dropdownitem.value}
+              style={getStyles(dropdownitem.value, item, theme)}
             >
-              {name}
+              {dropdownitem.renderedValue}
             </MenuItem>
           ))}
         </Select>
